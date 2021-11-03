@@ -4,7 +4,7 @@ import requests
 
 # local imports
 import scraper.formattr as form
-from scraper.configs import AMAZON, WALMART
+from scraper.configs import AMAZON, WALMART, COSTCO
 
 
 def httpsGet(URL):
@@ -25,8 +25,9 @@ def httpsGet(URL):
         'Accept-Encoding': 'gzip, deflate',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'DNT': '1',
-        'Connection': 'close',
-        'Upgrade-Insecure-Requests': '1'
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Cache-Control': 'no-cache'
     }
     page = requests.get(URL, headers=headers)
     # TODO check for page status
@@ -49,8 +50,10 @@ def search(query, config):
     products: list
         List of items returned from website
     """
-
-    query = form.formatSearchQuery(query)
+    if config['site']=='costco':
+        query = form.formatSearchQueryForCostco(query)
+    else:
+        query = form.formatSearchQuery(query)
     URL = config['url'] + query
     page = httpsGet(URL)
     results = page.find_all(config['item_component'], config['item_indicator'])
@@ -96,6 +99,8 @@ def scrape(args, scrapers):
         elif scraper == 'target':
             # TODO finish target scraper
             local = []
+        elif scraper == 'costco':
+            local = search(query, COSTCO)
         else:
             continue
         # TBD : move number of items fetched to global level ?
