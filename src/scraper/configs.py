@@ -47,4 +47,16 @@ COSTCO = {
     'link_indicator': 'span.description a',
 }
 
-CONFIGS = [WALMART, AMAZON, COSTCO]
+BESTBUY = {
+    'site': 'bestbuy',
+    'url': 'https://www.bestbuy.com/site/searchpage.jsp?st=',
+    'item_component': 'li',
+    'item_indicator': {
+        'class': 'sku-item'
+    },
+    'title_indicator': 'h4.sku-header a',
+    'price_indicator': 'div.priceView-customer-price span',
+    'link_indicator': 'a.image-link',
+}
+
+CONFIGS = [WALMART, AMAZON, COSTCO, BESTBUY]
