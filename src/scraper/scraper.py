@@ -4,7 +4,7 @@ import requests
 
 # local imports
 import scraper.formattr as form
-from scraper.configs import AMAZON, WALMART, COSTCO
+from scraper.configs import AMAZON, WALMART, COSTCO, BESTBUY
 
 
 def httpsGet(URL):
@@ -101,6 +101,8 @@ def scrape(args, scrapers):
             local = []
         elif scraper == 'costco':
             local = search(query, COSTCO)
+        elif scraper == 'bestbuy':
+            local = search(query, BESTBUY)
         else:
             continue
         # TBD : move number of items fetched to global level ?
